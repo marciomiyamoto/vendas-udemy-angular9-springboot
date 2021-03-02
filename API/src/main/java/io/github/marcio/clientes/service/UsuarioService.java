@@ -1,5 +1,6 @@
 package io.github.marcio.clientes.service;
 
+import io.github.marcio.clientes.exception.UsuarioCadastradoException;
 import io.github.marcio.clientes.model.entity.Usuario;
 import io.github.marcio.clientes.model.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +15,14 @@ public class UsuarioService implements UserDetailsService {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
+
+    public Usuario salvar(Usuario usuario) {
+        boolean exists = usuarioRepository.existsByUsername(usuario.getUsername());
+        if(exists) {
+            throw new UsuarioCadastradoException(usuario.getUsername());
+        }
+        return usuarioRepository.save(usuario);
+    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
