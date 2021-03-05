@@ -22,7 +22,7 @@ export class ClientesService {
   }
 
  getClientes():Observable<Cliente[]> {
-   return this.http.get<Cliente[]>(`${this.apiURL}`);
+   return this.http.get<Cliente[]>(this.apiURL);
  }
 
  getClientById(id: number): Observable<Cliente> {
